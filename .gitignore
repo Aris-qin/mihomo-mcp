@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.installed.cfg
+*.egg
+
+# Virtual envs
+.venv/
+venv/
+env/
+ENV/
+
+# uv
+uv.lock.bak
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Tests / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# Logs
+*.log
+logs/
+
+# ━━━━ CRITICAL ━━━━
+# 订阅 URL / 节点配置 / 任何用户凭据
+# 这些绝对不能进公开仓库
+config.local.yaml
+config.local.json
+*.local.yaml
+*.local.json
+secrets/
+.env
+.env.*
+mihomo-config*.yaml
+mihomo-provider*.yaml
+!examples/mihomo-config.example.yaml
+
+# mihomo 运行时文件（如果误克隆到）
+.cache.db
+*.metadb
+
+# OS / tmp
+tmp/
+temp/
