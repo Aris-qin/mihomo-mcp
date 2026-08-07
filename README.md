@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](pyproject.toml)
 [![MCP](https://img.shields.io/badge/badge-MCP_2026--07--28-green.svg)](https://modelcontextprotocol.io)
 
-**🚧 Status: Private / pre-release. Switch to public once v0.1.0 passes acceptance.**
+**Status: v0.1.0 (public)** — 9 tools, 17 tests, verified on mihomo v1.19.24
 
 ## What is mihomo-mcp?
 
