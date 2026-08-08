@@ -10,10 +10,11 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from typing import Any
 
 import yaml
 
-DEFAULTS = {
+DEFAULTS: dict[str, str | int] = {
     "host": "127.0.0.1",
     "port": 9090,
     "secret": "",
@@ -28,11 +29,11 @@ CONFIG_PATH = Path(
 )
 
 
-def _coerce_int(value: object, default: int) -> int:
+def _coerce_int(value: Any, default: Any) -> int:
     try:
-        return int(value)  # type: ignore[arg-type]
+        return int(value)
     except (TypeError, ValueError):
-        return default
+        return int(default)
 
 
 def load_config() -> dict:
