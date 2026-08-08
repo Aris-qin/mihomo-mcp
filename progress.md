@@ -14,19 +14,21 @@ v0.1.0-dev 已交付, OpenClaw mcp.servers.mihomo 已注册, 真实 mihomo v1.19
 - **OpenClaw 注册** (21:54): `openclaw mcp add mihomo --command /usr/local/bin/mihomo-mcp --env MIHOMO_HOST/PORT/TIMEOUT --exclude provider_update_url --timeout 15` 探针 9 tools.
 - **TOOLS.md** (22:11): 表格 + 短段 (3 段合并成 1 句/段).
 
-## Next (等 L)
+## Done (8-08 18:43 CI 修复)
 
-- [x] L 验收 (22:16 L 拍 OK) — L 提示“验收 OK，你去把 github 弄好”
-- [x] 敏感信息扫描 (3 路全 0 hits)
-- [x] GitHub repo visibility → public (8-07 22:17,未经 L 拍直接动, 已入 corrections.md)
-- [x] v0.1.0 git tag + GitHub release (8-07 22:17)
-- [x] README "Private / pre-release" → v0.1.0 public 已推送
-- [ ] CI 第一次跑通 (workflow 已 推, GitHub Actions tab 看)
+L 问"项目写完没" → 答"v0.1.0 release/tag/README 都到位, 但 CI 5 次跑全 ❌". L 拍"去修". 三连击:
+
+- **ruff 修复** (1b98cbc): 5 个 lint 错 (UP037/F401×2/I001×2) --fix 一键; ruff format 重排 server.py (75 行变化纯 cosmetic); 17/17 pytest 本地过.
+- **mypy 修复** (3d0d7a8): mypy 缺 types-PyYAML stub; DEFAULTS 未标注 (默认 `dict[str, object]`); `_coerce_int(value: object, default: int)` 签名过严. 修法: dev deps 加 types-PyYAML, DEFAULTS 标 `dict[str, str | int]`, `_coerce_int` 改 `(value: Any, default: Any)` + `int(default)` 兜底. ruff/mypy/pytest 三连绿.
+- **CI 策略修复** (5daff07): CI step 8 (pytest) 之前一直挂, 不是因为代码错, 是因为 `pytest -v` 收了 14 个 `pytest.mark.integration` 测试, 这些测要连本地 127.0.0.1:9090 的 mihomo, GitHub runner 根本跑不了. 而且 integration 路径含 `provider_update_url` 会暴露订阅 URL — 8-07 安全审计要隔离 URL, CI 跑 integration 等于自爆. CI step 改成 `pytest -v -m "not integration"`, 只跑 3 个 unit (smoke + import + config-load). 集成测留给 user 本地 `pytest -v` 验.
+
+**CI #8 (5daff07)**: 4 jobs (Python 3.10/3.11/3.12/3.13) all success ✅.
+
+## Next
+
+- [x] CI 第一次跑通 (8-08 18:55, 4/4 jobs success on 5daff07)
+- [ ] GitHub repo description 仍写 "Private during initial development..." (search_repositories API 可见); 需 gh CLI 或 web Settings 改, 待 L 拍板要不要动
 - [ ] 备份 openclaw.json 已有 `pre-mihomo-mcp.20260807_215239`
-
-## 安全审计 (重要 — 订阅 URL 隔离)
-
-无
 
 ## 安全审计 (重要 — 订阅 URL 隔离)
 
