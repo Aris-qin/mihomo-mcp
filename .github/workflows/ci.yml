@@ -36,4 +36,7 @@ jobs:
         run: uv run mypy src
 
       - name: Test (pytest)
-        run: uv run pytest -v
+        run: uv run pytest -v -m "not integration"
+        # Integration tests need a live mihomo on 127.0.0.1:9090; run them
+        # locally with `pytest -v` against your own mihomo instance, not in
+        # public CI (and never touch subscription URLs from CI runners).
