@@ -1,4 +1,5 @@
 """Async httpx client wrapping mihomo external-controller REST API."""
+
 from __future__ import annotations
 
 import json
@@ -56,7 +57,7 @@ class MihomoClient:
     async def close(self) -> None:
         await self._client.aclose()
 
-    async def __aenter__(self) -> "MihomoClient":
+    async def __aenter__(self) -> MihomoClient:
         return self
 
     async def __aexit__(self, *exc: Any) -> None:

@@ -5,11 +5,11 @@ Order (highest priority first):
 2. ~/.config/mihomo-mcp/config.yaml
 3. Built-in defaults (host=127.0.0.1, port=9090, secret="", timeout=10)
 """
+
 from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Optional
 
 import yaml
 

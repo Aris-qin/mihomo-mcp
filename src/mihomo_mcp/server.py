@@ -12,10 +12,10 @@ Tools:
 - connections_list        list active connections
 - version                 mihomo-mcp package version (for sanity check)
 """
+
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 import sys
 from contextlib import asynccontextmanager
@@ -60,6 +60,7 @@ def _ok(data: Any) -> dict:
 
 # ---- tools ----
 
+
 @mcp.tool()
 async def version() -> dict:
     """Return mihomo-mcp package version and connected mihomo version."""
@@ -86,13 +87,15 @@ async def proxy_list() -> dict:
             return _err(e)
     groups = []
     for name, p in data.get("proxies", {}).items():
-        groups.append({
-            "name": name,
-            "type": p.get("type"),
-            "current": p.get("now"),
-            "node_count": len(p.get("all", [])),
-            "alive": p.get("alive"),
-        })
+        groups.append(
+            {
+                "name": name,
+                "type": p.get("type"),
+                "current": p.get("now"),
+                "node_count": len(p.get("all", [])),
+                "alive": p.get("alive"),
+            }
+        )
     return _ok(groups)
 
 
@@ -164,10 +167,12 @@ async def proxy_test_group(
             return _err(e)
 
         if detail.get("type") not in ("Selector", "URLTest"):
-            return _err(MihomoError(
-                f"group '{group}' is type '{detail.get('type')}', not Selector/URLTest",
-                hint="proxy_test_group only works on groups with multiple options",
-            ))
+            return _err(
+                MihomoError(
+                    f"group '{group}' is type '{detail.get('type')}', not Selector/URLTest",
+                    hint="proxy_test_group only works on groups with multiple options",
+                )
+            )
 
         names = detail.get("all", [])
         sem = asyncio.Semaphore(max(1, concurrency))
@@ -199,12 +204,14 @@ async def provider_list() -> dict:
             return _err(e)
     out = []
     for name, p in data.get("providers", {}).items():
-        out.append({
-            "name": name,
-            "type": p.get("type"),
-            "vehicle_type": p.get("vehicleType"),
-            "node_count": len(p.get("proxies", [])),
-        })
+        out.append(
+            {
+                "name": name,
+                "type": p.get("type"),
+                "vehicle_type": p.get("vehicleType"),
+                "node_count": len(p.get("proxies", [])),
+            }
+        )
     return _ok(out)
 
 
@@ -257,10 +264,12 @@ async def mode_set(mode: str) -> dict:
     - direct: all traffic bypasses proxy
     """
     if mode not in ("rule", "global", "direct"):
-        return _err(MihomoError(
-            f"invalid mode '{mode}'",
-            hint="must be 'rule', 'global', or 'direct'",
-        ))
+        return _err(
+            MihomoError(
+                f"invalid mode '{mode}'",
+                hint="must be 'rule', 'global', or 'direct'",
+            )
+        )
     async with client_ctx() as c:
         try:
             await c.patch_configs({"mode": mode})
@@ -285,16 +294,18 @@ async def connections_list() -> dict:
     conns = data.get("connections") or []
     summary = []
     for c in conns:
-        summary.append({
-            "id": c.get("id"),
-            "host": c.get("host"),
-            "rule": c.get("rule"),
-            "chains": c.get("chains"),
-            "upload": c.get("upload"),
-            "download": c.get("download"),
-            "start": c.get("start"),
-            "matched": c.get("matched"),
-        })
+        summary.append(
+            {
+                "id": c.get("id"),
+                "host": c.get("host"),
+                "rule": c.get("rule"),
+                "chains": c.get("chains"),
+                "upload": c.get("upload"),
+                "download": c.get("download"),
+                "start": c.get("start"),
+                "matched": c.get("matched"),
+            }
+        )
     return _ok(summary)
 
 
